@@ -10,12 +10,26 @@
 
 @interface ZZiOSVersion : NSObject
 
+// + (BOOL (^)(NSInteger))versionAvailable;
+
 /**
  版本判断
- 使用方法：
- if (ZZiOSVersion.versionAvailable(__IPHONE_7_0)) {
-     ...
- }
+ 
+ @param versionNumber 版本号 - 整型
+ @return 是否版本可用
  */
-+ (BOOL (^)(NSInteger))versionAvailable;
++ (BOOL)versionAvailabel:(NSInteger)versionNumber;
+
+/**
+ 版本对比
+
+ @param v1 版本1
+ @param v2 版本2
+ @return NSComparisonResult
+ version1 > version2 ==> NSOrderedDescending
+ version1 = version2 ==> NSOrderedSame
+ version1 < version2 ==> NSOrderedAscending
+ */
++ (NSComparisonResult)versionCompare:(NSString *)v1 v2:(NSString *)v2;
+
 @end
