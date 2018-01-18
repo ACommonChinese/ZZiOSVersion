@@ -22,8 +22,10 @@
         NSLog(@"It's 7.0 or later version");
     }
     
-    NSString *v1 = @"2.9.1.8";
-    NSString *v2 = @"2.9.10";
+    // NSString *v1 = @"2.9.1.8";
+    // NSString *v2 = @"2.9.10";
+    NSString *v1 = @"2.9.1";
+    NSString *v2 = @"2.9.1.0.0.0";
     NSComparisonResult result = [ZZiOSVersion versionCompare:v1 v2:v2];
     switch (result) {
         case NSOrderedAscending: {

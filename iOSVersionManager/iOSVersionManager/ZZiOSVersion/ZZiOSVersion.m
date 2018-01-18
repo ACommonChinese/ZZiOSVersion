@@ -45,8 +45,13 @@
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSString *evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
         return evaluatedObject.length > 0; // Just filter such as 1..2...3 to 1.2.3
     }];
-    NSArray *v1Array = [[v1 componentsSeparatedByString:@"."] filteredArrayUsingPredicate:predicate];
-    NSArray *v2Array = [[v2 componentsSeparatedByString:@"."] filteredArrayUsingPredicate:predicate];
+    
+    NSMutableArray *v1Array = [NSMutableArray arrayWithArray:[[v1 componentsSeparatedByString:@"."] filteredArrayUsingPredicate:predicate]];
+    NSMutableArray *v2Array = [NSMutableArray arrayWithArray:[[v2 componentsSeparatedByString:@"."] filteredArrayUsingPredicate:predicate]];
+    
+    NSUInteger length = MAX(v1Array.count, v2Array.count);
+    [self fillArrayWithZero:v1Array maxLength:length];
+    [self fillArrayWithZero:v2Array maxLength:length];
     
     for (NSUInteger i = 0; i < MIN(v1Array.count, v2Array.count); i++) {
         NSInteger v1Num = [v1Array[i] integerValue];
@@ -54,20 +59,13 @@
         if (v1Num == v2Num) continue;
         return v1Num > v2Num ? NSOrderedDescending : NSOrderedAscending;
     }
-    
-    if (v1Array.count > v2Array.count) {
-        return NSOrderedDescending;
-    } else if (v1Array.count == v2Array.count) {
-        return NSOrderedSame;
-    } else {
-        return NSOrderedAscending;
-    }
+    return NSOrderedSame;
 }
 
-+ (NSComparisonResult (^)(NSString *version1, NSString *version2))versionCompare {
-    return ^NSComparisonResult(NSString *v1, NSString *v2) {
-        return NSOrderedAscending;
-    };
++ (void)fillArrayWithZero:(NSMutableArray *)array maxLength:(NSUInteger)length {
+    for (NSUInteger i = array.count; i < length; i++) {
+        [array addObject:@"0"];
+    }
 }
 
 @end
